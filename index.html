@@ -53,7 +53,11 @@ td button{margin:1px;font-size:12px}
 .pg input{width:100%;max-width:360px;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;background:var(--card);color:var(--tx);font:inherit;margin-bottom:10px}
 .pg ul{margin:6px 0 0;padding-left:20px;color:var(--mu)}
 #topnav{display:flex;gap:2px}
+.mi{width:100%;margin:4px 0;padding:6px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--tx);font:inherit}
+.t{background:var(--card);color:var(--tx);border:1px solid var(--bd);border-left:4px solid var(--ac);border-radius:8px;padding:8px 12px;box-shadow:0 4px 14px #0003;white-space:pre-wrap;font-size:13px}
+.t.g{border-left-color:var(--ok)}.t.e{border-left-color:var(--bad)}.t.y{border-left-color:#e0b44c}
 </style>
+
 
 </head>
 <body>
@@ -67,9 +71,9 @@ td button{margin:1px;font-size:12px}
   <section>
     <div id="tkt" class="box"></div>
     <div class="box">
-      <div class="tabs"><button class="tab on" id="t1" onclick="tab(1)">Terminal</button><button class="tab" id="t2" onclick="tab(2)">Directory</button><button class="tab" id="t3" onclick="tab(3)">Phone</button><button class="tab" id="t4" onclick="tab(4)">Chat</button><button class="tab" id="t5" onclick="tab(5)">Email</button><button class="tab" id="t6" onclick="tab(6)">M365</button></div>
-      <div id="p1"><div id="term"></div><div id="in"><span>PS&gt;</span><input id="cmd" autocomplete="off" spellcheck="false" placeholder="type help"></div></div>
-      <div id="p2" hidden style="padding:8px;overflow:auto"></div><div id="p3" class="pn" hidden></div><div id="p4" class="pn" hidden></div><div id="p5" class="pn" hidden></div><div id="p6" class="pn" hidden></div>
+      <div class="tabs" style="overflow:auto"><button class="tab" id="t2" onclick="tab(2)">AD Users</button><button class="tab" id="t6" onclick="tab(6)">Microsoft 365</button><button class="tab" id="t7" onclick="tab(7)">Computers</button><button class="tab" id="t8" onclick="tab(8)">DHCP &amp; GPO</button><button class="tab" id="t3" onclick="tab(3)">Phone</button><button class="tab" id="t4" onclick="tab(4)">Chat</button><button class="tab" id="t5" onclick="tab(5)">Email</button><button class="tab" id="t1" onclick="tab(1)">PowerShell (optional)</button></div>
+      <div id="p1" hidden><div id="term"></div><div id="in"><span>PS&gt;</span><input id="cmd" autocomplete="off" spellcheck="false" placeholder="type help"></div></div>
+      <div id="p2" hidden class="pn"></div><div id="p3" class="pn" hidden></div><div id="p4" class="pn" hidden></div><div id="p5" class="pn" hidden></div><div id="p6" class="pn" hidden></div><div id="p7" class="pn" hidden></div><div id="p8" class="pn" hidden></div>
     </div>
   </section>
 </main>
@@ -81,7 +85,7 @@ td button{margin:1px;font-size:12px}
   <li>The main-floor DHCP scope was close to full last week.</li>
   <li>New hire Tom Becker (Sales) starts Monday. HR will send the request.</li>
   <li>Phones, chat and email are all being monitored. Answer calls quickly.</li></ul></div>
- <div class="box" style="padding:14px 16px;margin-top:14px"><b>Company news</b><ul>
+ <div class="box" style="padding:14px 16px;margin-top:14px"><b>How to work a ticket</b><ul><li>Open <b>Service Desk</b> and click a ticket. It opens in the <b>Admin Console</b>.</li><li>Answer the call, chat or email in the <b>Phone / Chat / Email</b> tabs. Verify people before changing anything.</li><li>Fix it with the buttons in <b>AD Users</b>, <b>Microsoft 365</b>, <b>Computers</b> or <b>DHCP &amp; GPO</b>. No typing needed.</li><li>Click <b>Close ticket…</b> and write what you did. Use the <b>Knowledge Base</b> if you are unsure.</li></ul></div><div class="box" style="padding:14px 16px;margin-top:14px"><b>Company news</b><ul>
   <li>MFA is mandatory for all staff. Never disable it as a workaround.</li>
   <li>Audit next week: access to shared data needs the owner's approval, recorded on the ticket.</li>
   <li>Temporary passwords must be changed at first logon. No shared default passwords.</li></ul></div>
@@ -91,7 +95,7 @@ td button{margin:1px;font-size:12px}
 <div id="pg-staff" class="pg" hidden><h2>Staff Directory</h2><input id="sq" placeholder="Search name, username or department" oninput="stf()"><div class="box" style="overflow:auto;padding:8px" id="st"></div></div>
 <div id="pg-assets" class="pg" hidden><h2>Assets</h2><div class="box" style="overflow:auto;padding:8px" id="as"></div></div>
 <div id="pg-report" class="pg" hidden><h2>My Shift Report</h2><div id="rpt"></div></div>
-<div id="login" style="position:fixed;inset:0;background:var(--bg);z-index:9;display:flex;align-items:center;justify-content:center"><div class="box" style="padding:28px;width:340px;max-width:92vw"><h2 style="margin:0">JayTech</h2><p style="color:var(--mu)">IT Service Desk · staff sign-in</p><div class="pg" style="padding:0;margin:0"><input id="nm" placeholder="Your name" onkeydown="if(event.key=='Enter')signin()"></div><button class="sm" onclick="signin()">Start shift</button><p style="color:var(--mu);font-size:13px">You are the IT Support Analyst on shift. 08:00 to 17:00.</p></div></div>
+<div id="toasts" style="position:fixed;right:14px;bottom:14px;z-index:7;display:flex;flex-direction:column;gap:6px;max-width:340px"></div><div id="mdl" hidden style="position:fixed;inset:0;background:#0008;z-index:8;display:flex;align-items:center;justify-content:center"><div class="box" id="mdb" style="padding:20px;width:360px;max-width:92vw"></div></div><div id="login" style="position:fixed;inset:0;background:var(--bg);z-index:9;display:flex;align-items:center;justify-content:center"><div class="box" style="padding:28px;width:340px;max-width:92vw"><h2 style="margin:0">JayTech</h2><p style="color:var(--mu)">IT Service Desk · staff sign-in</p><div class="pg" style="padding:0;margin:0"><input id="nm" placeholder="Your name" onkeydown="if(event.key=='Enter')signin()"></div><button class="sm" onclick="signin()">Start shift</button><p style="color:var(--mu);font-size:13px">You are the IT Support Analyst on shift. 08:00 to 17:00.</p></div></div>
 
 <script>
 /* ===== world ===== */
@@ -141,7 +145,7 @@ const TK=[
 ];
 /* ===== terminal ===== */
 const term=()=>document.getElementById('term');
-function say(s,c){const d=document.createElement('div');d.textContent=s;if(c)d.className=c;term().appendChild(d);term().scrollTop=1e9}
+function say(s,c){if(window.booted&&c!='c'&&s.length<200)toast(s,c);const d=document.createElement('div');d.textContent=s;if(c)d.className=c;term().appendChild(d);term().scrollTop=1e9}
 const uq=s=>(s||'').replace(/^"|"$/g,'');
 function vio(m,id){id=id||TK[cur].id;VIO[id]=(VIO[id]||0)+1;say('[POLICY] '+m,'e')}
 function run(line){
@@ -258,7 +262,6 @@ Object.assign(CHAT,{
 MAILS.push(
 {at:34,id:'INC-1008',f:'lena.b@corp.example',s:'Leaver: John T.',b:'John T. in Sales leaves today. Please close his access and forward his mail to his manager, peter.k.',a:[['Reply: I will close his access today','Reply sent.'],['Reply: I will delete his account and mailbox now','Reply sent.',X('Proposed deleting data before handover.')]]},
 {at:46,id:'INC-1010',f:'maria.l@corp.example',s:'Finance shared mailbox',b:'Please give me access to the finance shared mailbox. I need it for an audit.',a:[['Reply: I will check with the mailbox owner first','Reply sent.'],['Reply: Done, no checks needed','Reply sent.',X('Promised shared-data access without owner approval.')]]});
-function m3(){return '<table><tr><th>User</th><th>License</th><th>MFA</th><th>Sign-in</th><th>Actions</th></tr>'+Object.keys(U).map(s=>{const u=U[s];return `<tr><td>${s}</td><td>${u.lic||'<span class="lk">none</span>'}</td><td>${u.mfa?'Registered':'None'}</td><td>${u.blk?'Blocked':'Allowed'}</td><td><button class="sm" onclick="doit('Set-M365License ${s}')">Assign E3</button><button class="sm" onclick="doit('Set-M365License ${s} -Remove')">Remove</button><button class="sm" onclick="doit('Reset-MFA ${s}')">Reset MFA</button></td></tr>`}).join('')+'</table>'}
 const CS={},HS={},ML=[];
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const bub=l=>l.map(([w,x])=>`<div class="bub ${w=='me'?'me':''}">${esc(x)}</div>`).join('');
@@ -285,27 +288,25 @@ function rp(){
   return h+'</div>'}).join('')||none;
  p4.innerHTML=Object.keys(HS).map(id=>{const s=HS[id],o=(id=='BOSS'?BOSS:CHAT[id]).o;
   return `<div class="em"><b>Chat: ${id=='BOSS'?'Manager':TK.find(x=>x.id==id).f}</b>`+bub(s.log)+'<div class="rp">'+o.map((q,j)=>s.used[j]?'':`<button onclick="hc('${id}',${j})">${esc(q[0])}</button>`).join('')+'</div></div>'}).join('')||none;
- p5.innerHTML=ML.map((m,k)=>`<div class="em"><b>${esc(m.s)}</b><br><small>From: ${esc(m.f)} · ${hm(m.at)}</small><p>${esc(m.b)}</p>`+(m.res?`<div class="fb" style="color:var(--mu)">${esc(m.res)}</div>`:'<div class="rp">'+m.a.map((o,j)=>`<button onclick="ma(${k},${j})">${esc(o[0])}</button>`).join('')+'</div>')+'</div>').join('')||none;p6.innerHTML=m3()}
+ p5.innerHTML=ML.map((m,k)=>`<div class="em"><b>${esc(m.s)}</b><br><small>From: ${esc(m.f)} · ${hm(m.at)}</small><p>${esc(m.b)}</p>`+(m.res?`<div class="fb" style="color:var(--mu)">${esc(m.res)}</div>`:'<div class="rp">'+m.a.map((o,j)=>`<button onclick="ma(${k},${j})">${esc(o[0])}</button>`).join('')+'</div>')+'</div>').join('')||none}
 /* ===== UI ===== */
-function tab(n){actTab=n;if(n>2)nb[n]=0;for(let i=1;i<=6;i++){document.getElementById('p'+i).hidden=i!=n;document.getElementById('t'+i).className='tab'+(i==n?' on':'')}if(n==1)cmd.focus();rp()}
+function tab(n){actTab=n;if(n>2)nb[n]=0;for(let i=1;i<=8;i++){document.getElementById('p'+i).hidden=i!=n;document.getElementById('t'+i).className='tab'+(i==n?' on':'')}if(n==1)cmd.focus();rp();if(n==2||n>5)gui()}
 function draw(){
  let tot=0,dn=0;
  inbox.innerHTML=TK.map((t,i)=>{const d=D[t.id]!=null;if(d){tot+=D[t.id];dn++}if(t.at>now)return'';
   return `<button class="tk ${i==cur?'on':''}" onclick="cur=${i};draw()"><span class="b ${d?'d':''}">${d?D[t.id]+'/'+MAX:'open'}</span><b>${t.id}</b><small>${t.t}</small></button>`}).join('');
  stat.textContent='Closed '+dn+'/'+TK.length+' · Score '+tot+'/'+dn*MAX;
  const t=TK[cur];
- tkt.innerHTML=`<div style="color:var(--mu);font-size:13px">${t.id} · ${t.f} · via ${t.ch} · SLA due <span class="${now>t.at+t.sla&&D[t.id]==null?'lk':''}">${hm(t.at+t.sla)}</span></div><h2>${t.t}</h2><div class="msg">${t.m}</div><button class="sm" onclick="hint()">Hint (-1 point)</button> <span id="hn" style="color:var(--mu)"></span>`;
- const dd=document.getElementById('p2');
- dd.innerHTML='<table><tr><th>User</th><th>Dept</th><th>OU</th><th>Status</th><th>Actions</th></tr>'+Object.keys(U).map(s=>{const u=U[s];
-  return `<tr><td>${s}</td><td>${u.d}</td><td>${u.ou}</td><td>${u.en?'Enabled':'Disabled'}${u.lock?' <span class="lk">· Locked</span>':''}</td><td><button class="sm" onclick="doit('Unlock-ADAccount ${s}')">Unlock</button><button class="sm" onclick="doit('Set-ADAccountPassword ${s} -Reset')">Reset pw</button><button class="sm" onclick="doit('Set-ADUser ${s} -ChangePasswordAtLogon $true')">Force change</button><button class="sm" onclick="doit('verify ${s}')">Verify caller</button></td></tr>`}).join('')+'</table>';rp();clk.textContent=hm(now);pgdraw();
+ tkt.innerHTML=`<div style="color:var(--mu);font-size:13px">${t.id} · ${t.f} · via ${t.ch} · SLA due <span class="${now>t.at+t.sla&&D[t.id]==null?'lk':''}">${hm(t.at+t.sla)}</span></div><h2>${t.t}</h2><div class="msg">${t.m}</div><div class="rp"><button class="sm" onclick="act('Check-Approval '+TK[cur].id)">Check approval</button><button class="sm" onclick="act('Escalate '+TK[cur].id+' security')">Escalate to Security</button><button class="sm" onclick="hint()">Hint (-1 point)</button><button class="sm" onclick="closeTk()">Close ticket…</button></div>`;
+ rp();clk.textContent=hm(now);pgdraw();
 }
 function doit(c){tab(1);run(c)}
-function hint(){const t=TK[cur];HN[t.id]=(HN[t.id]||0)+1;say('HINT: '+t.h,'y');tab(1)}
+function hint(){const t=TK[cur];HN[t.id]=(HN[t.id]||0)+1;say('HINT: '+t.h,'y')}
 cmd.addEventListener('keydown',e=>{
  if(e.key=='Enter'){run(cmd.value);cmd.value=''}
  else if(e.key=='ArrowUp'&&hi>0){cmd.value=hist[--hi]}
  else if(e.key=='ArrowDown'){cmd.value=hi<hist.length-1?hist[++hi]:'';hi=Math.min(hi+1,hist.length)}});
-say('JayTech IT. Your shift starts at 08:00. Tickets arrive by phone, chat and email. Answer them in the Phone/Chat/Email tabs, fix things here or in Directory, then Close with notes. Type help for commands.','y');
+say('JayTech IT. Your shift starts at 08:00. Tickets arrive by phone, chat and email. Answer them in the Phone/Chat/Email tabs, PowerShell is optional: everything can be done in the AD Users, Microsoft 365, Computers and DHCP tabs. Type help for commands.','y');
 /* ===== company pages ===== */
 const $=i=>document.getElementById(i);
 let NAME='Analyst',LATE=0;
@@ -329,7 +330,7 @@ const KB=[
 ['Ticket notes','Good resolution notes say what the issue was, what you did, and how you confirmed the fix.']];
 const EXTRA=[['lena.b','Lena B.','HR'],['','Tom Becker','Sales (starts Monday, no account yet)']];
 function go(p){PG.forEach(x=>$('pg-'+x).hidden=x!=p);document.querySelectorAll('#topnav button').forEach(b=>b.className='tab'+(b.dataset.p==p?' on':''));
- if(p=='kb')kb();if(p=='staff')stf();if(p=='console'){draw();cmd.focus()}pgdraw()}
+ if(p=='kb')kb();if(p=='staff')stf();if(p=='console'){draw();gui()}pgdraw()}
 function signin(){NAME=$('nm').value.trim()||'Analyst';try{localStorage.setItem('salname',NAME)}catch(e){}$('login').hidden=true;paused=false;$('pzb').textContent='Pause';go('home')}
 try{$('nm').value=localStorage.getItem('salname')||''}catch(e){}
 function kb(){const q=($('kq').value||'').toLowerCase();$('kl').innerHTML=KB.filter(a=>(a[0]+a[1]).toLowerCase().includes(q)).map(a=>`<div class="box" style="padding:12px 16px;margin:8px 0"><b>${a[0]}</b><p style="margin:4px 0 0;color:var(--mu)">${a[1]}</p></div>`).join('')||'<p>No articles.</p>'}
@@ -348,7 +349,28 @@ function pgdraw(){
   const pc=dn?tot/(dn*MAX):0,rt=!dn?'No tickets closed yet':pc>=.9?'Exceeds expectations':pc>=.7?'Meets expectations':'Needs improvement';
   $('rpt').innerHTML='<div class="kpis">'+[['Total score',tot+'/'+dn*MAX],['Rating',rt],['Policy violations',vi],['Hints used',hn],['SLAs missed',LATE]].map(([a,b])=>`<div class="box kpi"><small>${a}</small><b style="font-size:${String(b).length>8?'16':'24'}px">${b}</b></div>`).join('')+'</div><div class="box" style="overflow:auto;padding:8px;margin-top:14px"><table><tr><th>Ticket</th><th>Summary</th><th>Score</th></tr>'+TK.map(t=>`<tr><td>${t.id}</td><td>${t.t}</td><td>${D[t.id]!=null?D[t.id]+'/'+MAX:'-'}</td></tr>`).join('')+'</table></div>'}
 }
-arrive();draw();go('home');setInterval(()=>{if(!paused){now++;arrive();draw()}},3000);
+/* ===== GUI consoles (no typing needed) ===== */
+let selU='anna.s',selOU='All';
+const OUS=['Finance','Sales','HR','Legal','Operations','Marketing','Staff','Disabled Users'];
+const GRP=['GG-AllStaff','GG-Finance','GG-Sales','Domain Admins'];
+const opt=a=>a.map(x=>`<option>${x}</option>`).join('');
+const act=c=>{run(c);gui()};
+function toast(s,c){const d=document.createElement('div');d.className='t '+(c||'');d.textContent=s;$('toasts').appendChild(d);setTimeout(()=>d.remove(),7000)}
+function modal(t,b,ok){$('mdb').innerHTML='<h3 style="margin:0 0 8px">'+t+'</h3>'+b+'<div style="margin-top:12px"><button class="sm" id="mok">OK</button> <button class="sm" onclick="$(\'mdl\').hidden=true">Cancel</button></div>';$('mdl').hidden=false;$('mok').onclick=()=>{ok();$('mdl').hidden=true}}
+function resetPw(){const s=selU;modal('Reset password: '+U[s].n,'<label><input type="checkbox" id="mc" checked> User must change password at next logon</label>',()=>{run('Set-ADAccountPassword '+s+' -Reset');if(V[s]&&$('mc').checked)run('Set-ADUser '+s+' -ChangePasswordAtLogon $true');gui()})}
+function newU(){modal('New user','<input class="mi" id="nu" placeholder="Username (e.g. first.l)"><input class="mi" id="nn" placeholder="Full name"><select class="mi" id="nd">'+opt(OUS.slice(0,6))+'</select>',()=>{const u=$('nu').value.trim().toLowerCase().replace(/\s/g,'');if(!u){toast('Enter a username.','e');return}act('New-ADUser '+u+' -Name "'+($('nn').value||u).replace(/"/g,'')+'" -Department '+$('nd').value)})}
+function closeTk(){modal('Close '+TK[cur].id,'<textarea class="mi" id="cn" rows="3" placeholder="Resolution notes: what was wrong, what you did, how you confirmed it"></textarea>',()=>act('Close '+TK[cur].id+' "'+$('cn').value.replace(/"/g,"'")+'"'))}
+const sel=s=>`selU='${s}';gui()`;
+function adui(){const us=Object.keys(U).filter(s=>selOU=='All'||U[s].ou==selOU),u=U[selU];
+ let h='<div style="display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:start"><div>'+['All',...OUS].map(o=>`<button class="tk" style="padding:5px 8px;${o==selOU?'background:var(--bg)':''}" onclick="selOU='${o}';gui()">📁 ${o}</button>`).join('')+'</div><div><button class="sm" onclick="newU()">New user…</button><div style="overflow:auto"><table><tr><th>Name</th><th>Username</th><th>Dept</th><th>Status</th></tr>'+us.map(s=>`<tr style="cursor:pointer;${s==selU?'background:var(--bg)':''}" onclick="${sel(s)}"><td>${U[s].n}</td><td>${s}</td><td>${U[s].d}</td><td>${U[s].en?'Enabled':'Disabled'}${U[s].lock?' <span class="lk">· Locked</span>':''}</td></tr>`).join('')+'</table></div>';
+ if(u)h+=`<div class="box" style="padding:12px;margin-top:12px"><b>${u.n}</b> (${selU}) · ${u.d} · OU: ${u.ou}<br><small style="color:var(--mu)">Member of: ${u.g.join(', ')||'none'}</small><div class="rp"><button onclick="act('verify '+selU)">Verify caller</button><button onclick="resetPw()">Reset password…</button>${u.lock?'<button onclick="act(\'Unlock-ADAccount \'+selU)">Unlock account</button>':''}<button onclick="act('${u.en?'Disable':'Enable'}-ADAccount '+selU)">${u.en?'Disable':'Enable'} account</button><button onclick="act('Get-LockoutSource '+selU)">Check lockout source</button><button onclick="act('Clear-ActiveSyncDevice '+selU)">Remove mobile device</button></div><div style="margin-top:8px">Add to group <select id="gs" class="mi" style="width:auto">${opt(GRP)}</select> <button class="sm" onclick="act('Add-ADGroupMember &quot;'+$('gs').value+'&quot; '+selU)">Add</button> &nbsp; Move to OU <select id="os" class="mi" style="width:auto">${opt(OUS)}</select> <button class="sm" onclick="act('Move-ADObject '+selU+' -OU &quot;'+$('os').value+'&quot;')">Move</button></div></div>`;
+ return h+'</div></div>'}
+function m3(){const u=U[selU],us=opt(Object.keys(U));
+ return '<table><tr><th>User</th><th>License</th><th>MFA</th><th>Sign-in</th></tr>'+Object.keys(U).map(s=>`<tr style="cursor:pointer;${s==selU?'background:var(--bg)':''}" onclick="${sel(s)}"><td>${U[s].n} (${s})</td><td>${U[s].lic||'<span class="lk">none</span>'}</td><td>${U[s].mfa?'Registered':'None'}</td><td>${U[s].blk?'Blocked':'Allowed'}</td></tr>`).join('')+`</table><div class="box" style="padding:12px;margin-top:12px"><b>${u.n}</b> · License: ${u.lic||'none'} · MFA: ${u.mfa?'registered':'none'} · Forward to: ${u.fwd||'-'}<div class="rp"><button onclick="act('Set-M365License '+selU)">Assign E3 license</button><button onclick="act('Set-M365License '+selU+' -Remove')">Remove license</button><button onclick="act('Reset-MFA '+selU)">Reset MFA</button><button onclick="act('Block-M365SignIn '+selU)">Block sign-in</button><button onclick="act('Revoke-Sessions '+selU)">Sign out everywhere</button></div><div style="margin-top:8px">Forward mail to <select id="fs" class="mi" style="width:auto">${us}</select> <button class="sm" onclick="act('Set-MailboxForwarding '+selU+' -To '+$('fs').value)">Set forwarding</button></div></div><div class="box" style="padding:12px;margin-top:12px"><b>Shared mailbox: finance@jaytech.example</b><br><small style="color:var(--mu)">Full Access: ${SM.finance.join(', ')}</small><div style="margin-top:8px"><select id="ms" class="mi" style="width:auto">${us}</select> <button class="sm" onclick="act('Add-MailboxPermission finance -User '+$('ms').value)">Add member</button></div></div>`}
+function cpui(){return '<div style="overflow:auto"><table><tr><th>Computer</th><th>User</th><th>Free disk</th><th>IP</th><th>Print service</th><th>Queue</th><th>Policy</th><th>Actions</th></tr>'+Object.keys(C).map(n=>{const x=C[n],b=(c,l)=>`<button class="sm" onclick="act('${c} -ComputerName ${n}')">${l}</button>`;return `<tr><td>${n}</td><td>${x.u}</td><td class="${x.free<10?'lk':''}">${x.free}%</td><td class="${(x.ip||'').startsWith('169')?'lk':''}">${x.ip||'10.0.1.20'}</td><td class="${x.sp!='Running'?'lk':''}">${x.sp}</td><td>${x.q}</td><td class="${x.gpo?'lk':''}">${x.gpo?x.gpo+' days ago':'current'}</td><td>${b('Restart-Service Spooler','Restart print service')}${b('Clear-PrintQueue','Clear queue')}${b('Clear-TempFiles','Disk cleanup')}${b('gpupdate','Update policy')}${b('ipconfig /renew','Renew IP')}</td></tr>`}).join('')+'</table></div>'}
+function dhui(){return `<b>DHCP scope 10.0.1.0/24</b><table><tr><th>In use</th><th>Stale leases</th><th>Free</th></tr><tr><td>${50-DH.free} of 50</td><td>${DH.stale}</td><td class="${DH.free<1?'lk':''}">${DH.free}</td></tr></table><div class="rp"><button onclick="act('Clear-DhcpStaleLeases')">Delete stale leases</button></div><p><b>Group Policy objects</b></p><table><tr><th>Name</th><th>Linked to</th></tr><tr><td>Map Finance Drive</td><td>OU Finance</td></tr><tr><td>Password Policy</td><td>Domain</td></tr><tr><td>Desktop Lockdown</td><td>OU Sales</td></tr></table>`}
+function gui(){$('p2').innerHTML=adui();$('p6').innerHTML=m3();$('p7').innerHTML=cpui();$('p8').innerHTML=dhui()}
+arrive();draw();go('home');tab(2);window.booted=1;setInterval(()=>{if(!paused){now++;arrive();draw()}},3000);
 </script>
 </body>
 </html>
