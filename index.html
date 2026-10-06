@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JayTech IT</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--tx:#1b1f24;--mu:#5b6573;--bd:#d6dce4;--ac:#2457d6;--ok:#16794a;--bad:#b42318;--tb:#0d1117;--tt:#d5e2f0}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1217;--card:#171c23;--tx:#e6e9ee;--mu:#97a1af;--bd:#2a313b;--ac:#6b93ff;--ok:#4cc38a;--bad:#ff7b72;--tb:#07090d}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--card);border-bottom:1px solid var(--bd)}
+h1{font-size:17px;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+.sm{background:none;border:1px solid var(--bd);border-radius:6px;padding:3px 10px;color:var(--mu)}
+main{display:grid;grid-template-columns:260px 1fr;gap:14px;max-width:1150px;margin:14px auto;padding:0 14px}
+@media(max-width:780px){main{grid-template-columns:1fr}}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:10px}
+#inbox{padding:6px;align-self:start}
+.tk{display:block;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:9px 10px}
+.tk:hover,.tk.on{background:var(--bg)}
+.tk small{display:block;color:var(--mu)}
+.b{float:right;font-size:12px;color:var(--mu)}
+.b.d{color:var(--ok)}
+#tkt{padding:14px 16px;margin-bottom:14px}
+#tkt h2{margin:0 0 2px;font-size:17px}
+.msg{background:var(--bg);border-left:3px solid var(--ac);padding:8px 12px;border-radius:4px;margin:8px 0}
+.tabs{display:flex;gap:4px;padding:6px 6px 0;border-bottom:1px solid var(--bd)}
+.tab{background:none;border:0;border-bottom:2px solid transparent;padding:6px 12px;color:var(--mu)}
+.tab.on{color:var(--tx);border-color:var(--ac)}
+#term{background:var(--tb);color:var(--tt);font:13px/1.45 ui-monospace,Consolas,monospace;height:340px;overflow:auto;padding:10px;border-radius:0 0 10px 10px}
+#term div{white-space:pre-wrap;word-break:break-word}
+.e{color:#ff7b72}.g{color:#4cc38a}.y{color:#e0b44c}.c{color:#7aa2f7}
+#in{display:flex;gap:6px;background:var(--tb);color:var(--tt);padding:0 10px 10px;border-radius:0 0 10px 10px;font:13px ui-monospace,Consolas,monospace}
+#in input{flex:1;background:none;border:0;outline:0;color:inherit;font:inherit}
+table{width:100%;border-collapse:collapse}
+td,th{padding:7px 8px;border-bottom:1px solid var(--bd);text-align:left}
+td button{margin:1px;font-size:12px}
+.lk{color:var(--bad)}
+.pn{padding:12px;min-height:340px;overflow:auto;max-height:420px}
+.bub{background:var(--bg);border-radius:10px;padding:7px 12px;margin:5px 0;max-width:85%}
+.bub.me{margin-left:auto;background:color-mix(in srgb,var(--ac) 18%,transparent)}
+.rp{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.rp button{border:1px solid var(--bd);background:var(--card);border-radius:99px;padding:5px 12px;text-align:left}
+.rp button:hover{border-color:var(--ac)}
+.dot{background:var(--bad);color:#fff;border-radius:99px;font-size:11px;padding:0 6px;margin-left:4px}
+.em{border-bottom:1px solid var(--bd);padding:8px 0}
+[hidden]{display:none!important}
+.pg{max-width:1150px;margin:14px auto;padding:0 14px}
+.pg h2{margin:0 0 12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{padding:14px}.kpi small{color:var(--mu)}.kpi b{font-size:24px;display:block}
+.pg input{width:100%;max-width:360px;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;background:var(--card);color:var(--tx);font:inherit;margin-bottom:10px}
+.pg ul{margin:6px 0 0;padding-left:20px;color:var(--mu)}
+#topnav{display:flex;gap:2px}
+</style>
+
+</head>
+<body>
+<header>
+  <h1>JayTech · IT</h1>
+  <span style="color:var(--mu)"><b id="clk"></b> · <span id="stat"></span> <button class="sm" id="pzb" onclick="pz()">Pause</button></span>
+  <span><button class="sm" onclick="initW();say('Lab reset.','y')">Reset lab</button> <button class="sm" onclick="if(confirm('Clear all progress?')){D={};sv();draw()}">Reset progress</button></span>
+</header><nav id="topnav" class="tabs" style="background:var(--card);padding:0 14px;overflow:auto"><button class="tab" data-p="home" onclick="go('home')">Home</button><button class="tab" data-p="desk" onclick="go('desk')">Service Desk</button><button class="tab" data-p="console" onclick="go('console')">Admin Console</button><button class="tab" data-p="kb" onclick="go('kb')">Knowledge Base</button><button class="tab" data-p="staff" onclick="go('staff')">Staff Directory</button><button class="tab" data-p="assets" onclick="go('assets')">Assets</button><button class="tab" data-p="report" onclick="go('report')">My Report</button></nav>
+<main id="pg-console" hidden>
+  <nav id="inbox" class="box"></nav>
+  <section>
+    <div id="tkt" class="box"></div>
+    <div class="box">
+      <div class="tabs"><button class="tab on" id="t1" onclick="tab(1)">Terminal</button><button class="tab" id="t2" onclick="tab(2)">Directory</button><button class="tab" id="t3" onclick="tab(3)">Phone</button><button class="tab" id="t4" onclick="tab(4)">Chat</button><button class="tab" id="t5" onclick="tab(5)">Email</button><button class="tab" id="t6" onclick="tab(6)">M365</button></div>
+      <div id="p1"><div id="term"></div><div id="in"><span>PS&gt;</span><input id="cmd" autocomplete="off" spellcheck="false" placeholder="type help"></div></div>
+      <div id="p2" hidden style="padding:8px;overflow:auto"></div><div id="p3" class="pn" hidden></div><div id="p4" class="pn" hidden></div><div id="p5" class="pn" hidden></div><div id="p6" class="pn" hidden></div>
+    </div>
+  </section>
+</main>
+<div id="pg-home" class="pg" hidden>
+ <h2 id="hg"></h2><div class="kpis" id="kp"></div>
+ <div class="box" style="padding:14px 16px;margin-top:14px"><b>Hand-over notes from night shift</b><ul>
+  <li>Backups finished normally overnight.</li>
+  <li>Two staff reported a suspicious "IT" email yesterday. Staff are on alert; report anything similar.</li>
+  <li>The main-floor DHCP scope was close to full last week.</li>
+  <li>New hire Tom Becker (Sales) starts Monday. HR will send the request.</li>
+  <li>Phones, chat and email are all being monitored. Answer calls quickly.</li></ul></div>
+ <div class="box" style="padding:14px 16px;margin-top:14px"><b>Company news</b><ul>
+  <li>MFA is mandatory for all staff. Never disable it as a workaround.</li>
+  <li>Audit next week: access to shared data needs the owner's approval, recorded on the ticket.</li>
+  <li>Temporary passwords must be changed at first logon. No shared default passwords.</li></ul></div>
+</div>
+<div id="pg-desk" class="pg" hidden><h2>Service Desk</h2><div class="box" style="overflow:auto;padding:8px" id="dk"></div></div>
+<div id="pg-kb" class="pg" hidden><h2>Knowledge Base</h2><input id="kq" placeholder="Search articles" oninput="kb()"><div id="kl"></div></div>
+<div id="pg-staff" class="pg" hidden><h2>Staff Directory</h2><input id="sq" placeholder="Search name, username or department" oninput="stf()"><div class="box" style="overflow:auto;padding:8px" id="st"></div></div>
+<div id="pg-assets" class="pg" hidden><h2>Assets</h2><div class="box" style="overflow:auto;padding:8px" id="as"></div></div>
+<div id="pg-report" class="pg" hidden><h2>My Shift Report</h2><div id="rpt"></div></div>
+<div id="login" style="position:fixed;inset:0;background:var(--bg);z-index:9;display:flex;align-items:center;justify-content:center"><div class="box" style="padding:28px;width:340px;max-width:92vw"><h2 style="margin:0">JayTech</h2><p style="color:var(--mu)">IT Service Desk · staff sign-in</p><div class="pg" style="padding:0;margin:0"><input id="nm" placeholder="Your name" onkeydown="if(event.key=='Enter')signin()"></div><button class="sm" onclick="signin()">Start shift</button><p style="color:var(--mu);font-size:13px">You are the IT Support Analyst on shift. 08:00 to 17:00.</p></div></div>
+
+<script>
+/* ===== world ===== */
+let U,C,V,F,SM,DH,VIO={},HN={},cur=0,hist=[],hi=0;
+function initW(){
+ U={'anna.s':{n:'Anna S.',d:'Finance',en:1,lock:0,g:['GG-AllStaff','GG-Finance'],pw:0,chg:0},
+    'peter.k':{n:'Peter K.',d:'Sales',en:1,lock:1,g:['GG-AllStaff','GG-Sales'],pw:0,chg:0,src:'Mobile device (ActiveSync) using an old password'},
+    'maria.l':{n:'Maria L.',d:'Legal',en:1,lock:0,g:['GG-AllStaff'],pw:0,chg:0},
+    'david.n':{n:'David N.',d:'Operations',en:1,lock:0,g:['GG-AllStaff'],pw:0,chg:0},
+    'grace.m':{n:'Grace M.',d:'HR',en:1,lock:0,g:['GG-AllStaff'],pw:0,chg:0},
+    'sam.o':{n:'Sam O.',d:'Marketing',en:1,lock:0,g:['GG-AllStaff'],pw:0,chg:0},
+    'john.t':{n:'John T.',d:'Sales',en:1,lock:0,g:['GG-AllStaff','GG-Sales'],pw:0,chg:0},
+    'ruth.p':{n:'Ruth P.',d:'Finance',en:1,lock:0,g:['GG-AllStaff','GG-Finance'],pw:0,chg:0}};
+ C={'PC-014':{u:'maria.l',on:1,free:41,sp:'Stopped',q:3},'PC-022':{u:'david.n',on:1,free:4,sp:'Running',q:0},'PC-031':{u:'anna.s',on:1,free:55,sp:'Running',q:0,gpo:9},'PC-040':{u:'david.n',on:1,free:60,sp:'Running',q:0,ip:'169.254.12.7'}};
+ V={};F={};Object.values(U).forEach(u=>{u.ou=u.d;u.lic='E3';u.mfa=1;u.blk=0;u.fwd=''});U['sam.o'].lic='';SM={finance:['anna.s']};DH={free:0,stale:22};
+}
+initW();
+let D={};try{D=JSON.parse(localStorage.getItem('sal')||'{}')}catch(e){}
+const sv=()=>{try{localStorage.setItem('sal',JSON.stringify(D))}catch(e){}};
+const MAX=10;
+/* ===== tickets: ok() returns array of booleans, all must be true ===== */
+const TK=[
+{id:'INC-1001',t:'Forgot password',f:'Anna S. (Finance), by phone',
+ m:'"Hi, it\'s Anna. I can\'t log in this morning, I think I forgot my password. Can you reset it for me?"',
+ h:'You are on the phone with a caller. Verify before you touch credentials. The user should choose their own password.',
+ ok:()=>[V['anna.s'],U['anna.s'].pw,U['anna.s'].chg]},
+{id:'INC-1002',t:'Account keeps locking',f:'Peter K. (Sales)',
+ m:'"I changed my password yesterday. Now my account locks every few minutes. Unlocking it only helps for a bit."',
+ h:'Find out what keeps sending the old password. Unlocking alone will not hold.',
+ ok:()=>[F.lsrc,!U['peter.k'].src,!U['peter.k'].lock]},
+{id:'INC-1003',t:'Printer stuck',f:'Maria L. (PC-014)',
+ m:'"My print jobs just sit in the queue. I need a contract printed in an hour."',
+ h:'Inspect the computer first. A service and a queue are involved.',
+ ok:()=>[C['PC-014'].sp=='Running',C['PC-014'].q==0]},
+{id:'INC-1004',t:'PC very slow',f:'David N. (PC-022)',
+ m:'"My PC takes forever to do anything and sometimes says it is low on space."',
+ h:'Look at the computer\'s disk before changing anything.',
+ ok:()=>[C['PC-022'].free>=20]},
+{id:'INC-1005',t:'New hire account',f:'HR (Lena B.)',
+ m:'"Tom Becker starts Monday in Sales. Please create his account: username tom.b, email and normal Sales access."',
+ h:'Confirm the request is approved (Check-Approval INC-1005). Give least privilege: AllStaff and Sales groups only.',
+ ok:()=>[F.appr,!!U['tom.b'],U['tom.b']&&U['tom.b'].g.includes('GG-Sales'),U['tom.b']&&U['tom.b'].g.includes('GG-AllStaff'),U['tom.b']&&!U['tom.b'].g.includes('Domain Admins')]},
+{id:'INC-1006',t:'Clicked a phishing link',f:'Grace M. (HR), urgent call',
+ m:'"I got an email from \'IT\' asking me to verify my account. I clicked and typed my password. Now I am worried."',
+ h:'Treat as a security incident: contain the account (password, sessions) and hand it to security with Escalate INC-1006 security.',
+ ok:()=>[V['grace.m'],U['grace.m'].pw,F.rev,F.esc]}
+];
+/* ===== terminal ===== */
+const term=()=>document.getElementById('term');
+function say(s,c){const d=document.createElement('div');d.textContent=s;if(c)d.className=c;term().appendChild(d);term().scrollTop=1e9}
+const uq=s=>(s||'').replace(/^"|"$/g,'');
+function vio(m,id){id=id||TK[cur].id;VIO[id]=(VIO[id]||0)+1;say('[POLICY] '+m,'e')}
+function run(line){
+ line=line.trim();if(!line)return;say('PS> '+line,'c');hist.push(line);hi=hist.length;
+ const tok=line.match(/"[^"]*"|\S+/g),c=tok[0].toLowerCase(),a=tok.slice(1).map(uq);
+ const fl=n=>{const i=a.findIndex(x=>x.toLowerCase()=='-'+n);return i<0?null:a[i+1]};
+ const sam=(a[0]||'').toLowerCase(),u=U[sam];
+ const needU=()=>{if(!sam){say('Missing username.','e');return 1}if(!u){say('Cannot find user "'+sam+'".','e');return 1}};
+ const comp=()=>{const n=(fl('computername')||'').toUpperCase();if(!C[n]){say('Computer not found. Use -ComputerName PC-xxx','e');return null}return C[n]};
+ switch(c){
+ case 'help':say('Commands:\n verify <user>\n Get-ADUser <user>\n Get-LockoutSource <user>\n Clear-ActiveSyncDevice <user>\n Unlock-ADAccount <user>\n Enable-ADAccount / Disable-ADAccount <user>\n Set-ADAccountPassword <user> -Reset\n Set-ADUser <user> -ChangePasswordAtLogon $true\n Revoke-Sessions <user>\n New-ADUser <user> -Name "Full Name" -Department Dept\n Add-ADGroupMember "<group>" <user>\n Get-ADGroupMember "<group>"\n Check-Approval <ticket>\n Get-Computer <PC>   (e.g. Get-Computer -ComputerName PC-014)\n Restart-Service Spooler -ComputerName <PC>\n Clear-PrintQueue -ComputerName <PC>\n Clear-TempFiles -ComputerName <PC>\n Escalate <ticket> <team>\n Close <ticket> "resolution notes"\n Get-M365User <user>, Set-M365License <user> [-Remove], Reset-MFA <user>\n Set-MailboxForwarding <user> -To <user>\n Add-MailboxPermission finance -User <user>\n Move-ADObject <user> -OU "Name", Get-ADOrganizationalUnit, Get-GPO\n gpupdate -ComputerName <PC>\n Get-DhcpScope, Clear-DhcpStaleLeases\n ipconfig /renew -ComputerName <PC>\n tickets | clear');break;
+ case 'clear':term().innerHTML='';break;
+ case 'tickets':TK.forEach(t=>say(t.id+'  '+t.t+(D[t.id]!=null?'  [closed]':'')));break;
+ case 'verify':if(needU())break;V[sam]=1;say('Identity of '+u.n+' verified (callback and security questions).','g');break;
+ case 'get-aduser':if(!sam){say('Missing username.','e');break}
+  if(!u){say('Cannot find an object with identity "'+sam+'".','e');break}
+  say('SamAccountName : '+sam+'\nName           : '+u.n+'\nDepartment     : '+u.d+'\nEnabled        : '+!!u.en+'\nLockedOut      : '+!!u.lock+'\nMemberOf       : '+u.g.join(', '));break;
+ case 'get-lockoutsource':if(needU())break;F.lsrc=1;say(u.src?'Bad-password source for '+sam+': '+u.src:'No recent bad-password attempts for '+sam+'.');break;
+ case 'clear-activesyncdevice':if(needU())break;if(u.src){delete u.src;say('Removed mobile device partnership for '+sam+'. The user must re-add it with the new password.','g')}else say('No devices registered.','y');break;
+ case 'unlock-adaccount':if(needU())break;
+  if(!u.lock){say('Account is not locked.','y');break}
+  if(u.src){say('Account unlocked.','g');say('...a few minutes later: '+sam+' LOCKED OUT again (source still active).','e')}else{u.lock=0;say('Account unlocked.','g')}break;
+ case 'enable-adaccount':if(needU())break;u.en=1;say('Account enabled.','g');break;
+ case 'disable-adaccount':if(needU())break;u.en=0;say('Account disabled.','y');break;
+ case 'set-adaccountpassword':if(needU())break;
+  if(!V[sam]){vio('Password reset blocked: verify the user\'s identity first.');break}
+  u.pw=1;say('Temporary password set: Tmp#'+Math.floor(1000+Math.random()*9000)+'  (give it to the user securely)','g');break;
+ case 'set-aduser':if(needU())break;
+  if(fl('changepasswordatlogon')!==null){u.chg=1;say('User must change password at next logon.','g')}else say('Nothing to change. Try -ChangePasswordAtLogon $true','y');break;
+ case 'revoke-sessions':if(needU())break;u.rev=1;if(sam=='grace.m')F.rev=1;say('All active sessions and tokens revoked for '+sam+'.','g');break;
+ case 'new-aduser':if(!sam){say('Missing username.','e');break}
+  if(U[sam]){say('User already exists.','e');break}
+  if(!F.appr){vio('No approved request on file. Confirm approval first.');break}
+  U[sam]={n:fl('name')||sam,d:fl('department')||'-',en:1,lock:0,g:[],pw:1,chg:1,ou:fl('department')||'Staff',lic:'',mfa:0,blk:0,fwd:''};say('Created '+sam+' (temporary password, change at first logon).','g');draw();break;
+ case 'add-adgroupmember':{const g=a[0],s2=(a[1]||'').toLowerCase();
+  if(!U[s2]){say('Cannot find user "'+s2+'".','e');break}
+  if(/domain admins/i.test(g)){vio('Denied: privileged group not justified. Use least privilege.');break}
+  const known=['GG-AllStaff','GG-Finance','GG-Sales'].find(x=>x.toLowerCase()==(g||'').toLowerCase());
+  if(!known){say('Group not found: '+g,'e');break}
+  if(!U[s2].g.includes(known))U[s2].g.push(known);say('Added '+s2+' to '+known+'.','g');break}
+ case 'get-adgroupmember':{const g=(a[0]||'').toLowerCase();const m=Object.keys(U).filter(k=>U[k].g.some(x=>x.toLowerCase()==g));say(m.length?m.join('\n'):'No members or group not found.');break}
+ case 'check-approval':{const id=(a[0]||'').toUpperCase();if(id=='INC-1005'){F.appr=1;say('Approval on file: signed off by Tom\'s manager.','g')}else if(id=='INC-1010'){F.ap10=1;say('Approval on file: finance mailbox owner (Anna S.) agrees.','g')}else say('No approval required or ticket unknown.','y');break}
+ case 'get-computer':{const n=(fl('computername')||a[0]||'').toUpperCase();const x=C[n];if(!x){say('Computer not found.','e');break}
+  say(n+'\nUser          : '+x.u+'\nOnline        : '+!!x.on+'\nFree disk (C:) : '+x.free+'%\nPrint Spooler : '+x.sp+'\nQueued jobs   : '+x.q+'\nIP address    : '+(x.ip||'10.0.1.20')+'\nGPO applied   : '+(x.gpo?x.gpo+' days ago':'current'));break}
+ case 'restart-service':{const x=comp();if(!x)break;if((a[0]||'').toLowerCase()!='spooler'){say('Only Spooler is supported here.','y');break}x.sp='Running';say('Print Spooler restarted.','g');break}
+ case 'clear-printqueue':{const x=comp();if(!x)break;if(x.sp!='Running'){say('Cannot clear queue: Print Spooler is not running.','e');break}x.q=0;say('Print queue cleared.','g');break}
+ case 'clear-tempfiles':{const x=comp();if(!x)break;if(x.free<20){x.free=38;say('Temp files removed. Free disk now 38%.','g')}else say('Little to gain here.','y');break}
+ case 'escalate':{const id=(a[0]||'').toUpperCase(),tm=(a[1]||'').toLowerCase();if(id=='INC-1006'&&tm=='security'){F.esc=1;say('Ticket handed to the Security team.','g')}else say('Escalated '+id+' to '+(tm||'?')+'. (Not needed for this ticket.)','y');break}
+ case 'close':closeT((a[0]||'').toUpperCase(),a.slice(1).join(' '));break;
+ case 'get-m365user':if(needU())break;say(sam+'\nLicense : '+(u.lic||'none')+'\nMailbox : '+(u.lic?'active':'none (no license)')+'\nMFA     : '+(u.mfa?'registered':'not registered')+'\nSign-in : '+(u.blk?'blocked':'allowed')+'\nForward : '+(u.fwd||'-'));break;
+ case 'set-m365license':if(needU())break;if(a.some(x=>x.toLowerCase()=='-remove')){u.lic='';say('License removed from '+sam+'.','g')}else{u.lic='E3';say('License E3 assigned to '+sam+'.','g')}break;
+ case 'reset-mfa':if(needU())break;if(!V[sam]){vio("MFA reset blocked: verify the user's identity first.");break}u.mfa=0;say('MFA registration cleared. '+u.n+' must re-register at next sign-in.','g');break;
+ case 'block-m365signin':if(needU())break;u.blk=1;say('Sign-in blocked for '+sam+'.','y');break;
+ case 'set-mailboxforwarding':{if(needU())break;const t=(fl('to')||'').toLowerCase();if(!U[t]){say('Target user not found.','e');break}u.fwd=t;say('Mail for '+sam+' now forwards to '+t+'.','g');break}
+ case 'add-mailboxpermission':{const m=(a[0]||'').toLowerCase(),w=(fl('user')||'').toLowerCase();if(!SM[m]){say('Shared mailbox not found. Try: finance','e');break}if(!U[w]){say('User not found.','e');break}
+  if(!F.ap10){vio('Denied: the mailbox owner must approve first.');break}SM[m].push(w);say(w+' now has Full Access to '+m+'.','g');break}
+ case 'move-adobject':if(needU())break;u.ou=fl('ou')||u.ou;say('Moved '+sam+' to OU: '+u.ou,'g');break;
+ case 'get-adorganizationalunit':say('Finance\nSales\nHR\nLegal\nOperations\nMarketing\nStaff\nDisabled Users');break;
+ case 'get-gpo':say('Map Finance Drive  (linked: OU Finance)\nPassword Policy    (linked: Domain)\nDesktop Lockdown   (linked: OU Sales)');break;
+ case 'gpupdate':{const x=comp();if(!x)break;x.gpo=0;say('Group Policy refreshed. Drive maps applied.','g');break}
+ case 'get-dhcpscope':say('Scope 10.0.1.0/24\nLeases in use : '+(50-DH.free)+' of 50\nStale leases  : '+DH.stale+'\nFree          : '+DH.free);break;
+ case 'clear-dhcpstaleleases':DH.free+=DH.stale;DH.stale=0;say('Stale leases removed. Free addresses: '+DH.free,'g');break;
+ case 'ipconfig':{const x=comp();if(!x)break;if(DH.free<=0){say('DHCP request timed out. Still on '+x.ip,'e');break}DH.free--;x.ip='10.0.1.'+(100+Math.floor(Math.random()*50));say('Renewed. New IP '+x.ip,'g');break}
+ default:say('Unknown command. Type help.','e')}
+ draw();
+}
+function closeT(id,notes){
+ const i=TK.findIndex(t=>t.id==id);if(i<0){say('Unknown ticket.','e');return}
+ if(D[id]!=null){say('Already closed.','y');return}
+ const left=TK[i].ok().filter(x=>!x).length;
+ if(left){say('Not resolved yet: '+left+' item(s) remaining. Use Hint if stuck.','e');return}
+ if(notes.length<15){say('Add resolution notes: Close '+id+' "what you found and did"','y');return}
+ const late=now>TK[i].at+TK[i].sla;if(late)LATE++;const sc=Math.max(0,MAX-2*(VIO[id]||0)-(HN[id]||0)-(late?2:0));D[id]=sc;sv();say(id+' closed. Score '+sc+'/'+MAX+' (violations: '+(VIO[id]||0)+', hints: '+(HN[id]||0)+(late?', SLA missed':'')+').','g');
+}
+/* ===== shift engine: clock, calls, chat, email ===== */
+let now=0,paused=true,actTab=1,nb={3:0,4:0,5:0};
+const hm=m=>{m+=480;return String(m/60|0).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+const MT={'INC-1001':[0,'call',20],'INC-1002':[3,'chat',30],'INC-1003':[7,'chat',40],'INC-1004':[12,'mail',60],'INC-1005':[16,'mail',90],'INC-1006':[22,'call',15]};
+TK.forEach(t=>{[t.at,t.ch,t.sla]=MT[t.id]});
+const X=m=>['x',m],Vf=s=>['v',s];
+/* option = [what you say, their reply, effect] */
+const CALL={
+'INC-1001':[
+ {x:"Hi, it's Anna from Finance. I can't log in, I think I forgot my password. Can you reset it?",o:[['Verify her with security questions first','Sure. ... Yes, those are all correct.',Vf('anna.s')],['Reset it right now','Oh great, thank you!',X('Offered a reset without verifying the caller.')],['Tell her to try again later','But I really need to get in...',X('Brushed off a user with a real issue.')]]},
+ {x:"Once it's reset, how do I get the new password?",o:[['Temporary password, and she picks her own at first logon','Great, thanks.'],['Email her the new password','OK, thanks.',X('Sent credentials in plain email.')],['Say everyone gets Welcome123','Alright.',X('Used a predictable shared password.')]]}],
+'INC-1006':[
+ {x:"It's Grace in HR. I clicked a link in an email that looked like it was from IT and typed my password. I think it was fake.",o:[['Verify her quickly, then treat it as a security incident','Yes, ask me anything. Please hurry.',Vf('grace.m')],['Say it is probably nothing','Oh, okay...',X('Dismissed a likely credential compromise.')],['Tell her to carry on working meanwhile','Okay...',X('Left a possibly compromised account in use.')]]},
+ {x:'What should I do now?',o:[['Do not click or reply further, do not reuse that password, expect a reset from me','Understood.'],['Tell her to delete her whole mailbox','Um, okay.',X('Told a user to destroy possible evidence.')]]}]};
+const CHAT={
+'INC-1002':{o:[['When did it start? Do you use your work email on a phone?','Yes, on my phone! It started right after I changed the password yesterday.'],['Have you tried turning it off and on again?','Seriously? It is my account that locks.',X('Gave a scripted reply instead of diagnosing.')],['On it. I am checking the logs now.','Thanks!']]},
+'INC-1003':{o:[['Is it only you, and does the printer show anything?','Only me. The printer shows nothing, my jobs just sit there.'],['Please reboot your PC and call me back','But I need this printed now.',X('Pushed work back to the user before diagnosing.')],['Looking at it now. I will update you shortly.','Thanks, please be quick.']]}};
+const BOSS={at:14,m:'Quick status check: what is open and what is your priority?',o:[['Working in priority order: security issues first, then blocked users.','Good. Keep me posted.'],['Too busy to talk.','Noted.',X('Ignored a status request from your manager.')]]};
+const MAILS=[
+{at:10,id:'PH',f:'IT-Support <helpdesk@it-suport-portal.example>',s:'Mailbox full: verify now',b:'Your mailbox is 99% full. Verify your account within 1 hour or it will be disabled: http://verify-mailbox.example/login',a:[['Report as phishing','Good catch. Reported and the sender blocked.'],['Delete it','Deleted, but others may still receive it.'],['Click the link and sign in','You entered your admin credentials on a fake page. That is a security incident.',X('Fell for a phishing email.')]]},
+{at:12,id:'INC-1004',f:'david.n@corp.example',s:'PC very slow',b:'My PC takes forever to start and sometimes warns about low space. Can you look?',a:[['Reply: I will check it remotely and update you','Reply sent.'],['Reply: you need a new laptop','Reply sent.',X('Recommended hardware without diagnosing.')]]},
+{at:16,id:'INC-1005',f:'lena.b@corp.example',s:'New hire: Tom Becker',b:'Tom Becker starts Monday in Sales. Please create his account (tom.b) with normal Sales access.',a:[['Reply: I will confirm the approval and set it up','Reply sent.'],['Reply: add him to Domain Admins so there are no issues','Reply sent.',X('Proposed excessive privileges.')]]}];
+/* ===== batch 2: M365, OUs, GPO, DHCP, on/offboarding ===== */
+TK.push(
+{id:'INC-1007',t:'No Microsoft 365 license',f:'Sam O. (Marketing)',m:'"Outlook and Teams both say I don\'t have a license. It\'s my second week."',h:'Check the user in Microsoft 365: Get-M365User sam.o',ok:()=>[U['sam.o'].lic=='E3']},
+{id:'INC-1008',t:'Employee leaving today',f:'HR (Lena B.)',m:'"John T. in Sales leaves today. Please close his access and forward his mail to his manager, peter.k."',h:'Offboarding covers AD (disable, move to Disabled Users OU) and M365 (sessions, license, mail forwarding).',ok:()=>[!U['john.t'].en,U['john.t'].rev,U['john.t'].lic=='',U['john.t'].ou=='Disabled Users',U['john.t'].fwd=='peter.k']},
+{id:'INC-1009',t:'New phone, MFA broken',f:'Ruth P. (Finance), call',m:'"I got a new phone and can\'t approve my sign-in prompts. I\'m locked out of everything."',h:'Verify the caller, then reset her MFA registration so she can enrol again.',ok:()=>[V['ruth.p'],U['ruth.p'].mfa==0]},
+{id:'INC-1010',t:'Shared mailbox access',f:'Maria L. (Legal)',m:'"Please give me access to the finance shared mailbox. I need it for an audit."',h:'Shared data needs the owner\'s approval: Check-Approval INC-1010',ok:()=>[F.ap10,SM.finance.includes('maria.l')]},
+{id:'INC-1011',t:'Drive F: missing',f:'Anna S. (PC-031)',m:'"My Finance drive F: has disappeared. It was there last week."',h:'Inspect PC-031. Drive maps come from Group Policy.',ok:()=>[C['PC-031'].gpo==0]},
+{id:'INC-1012',t:'No network at new desk',f:'David N. (PC-040)',m:'"I moved desks. The cable is in but Windows says no internet."',h:'Get-Computer -ComputerName PC-040, then look at DHCP.',ok:()=>[(C['PC-040'].ip||'').startsWith('10.')]});
+const M2={'INC-1007':[28,'chat',30],'INC-1008':[34,'mail',45],'INC-1009':[40,'call',20],'INC-1010':[46,'mail',60],'INC-1011':[52,'chat',30],'INC-1012':[58,'chat',30]};
+TK.slice(6).forEach(t=>{[t.at,t.ch,t.sla]=M2[t.id]});
+CALL['INC-1009']=[
+ {x:"Hi, it's Ruth from Finance. I got a new phone and can't approve my sign-in prompts. I can't get into anything.",o:[['Verify her with security questions first','Sure. ... Yes, those are right.',Vf('ruth.p')],['Switch MFA off for her account','Okay, thanks!',X('Offered to bypass MFA without verifying the caller.')],['Tell her to use her old phone','I already wiped it...',X('Gave an impractical answer.')]]},
+ {x:'What happens after you reset it?',o:[['She registers her new phone at her next sign-in','Great.'],["Tell her to borrow a colleague's codes",'Hmm, okay.',X('Told a user to share MFA codes.')]]}];
+Object.assign(CHAT,{
+'INC-1007':{o:[['Which exact error do you see? Does it mention a license?','Yes: "no license assigned".'],['Please wait 24 hours','Okay...',X('Left a blocked user waiting without checking.')],['Checking your account now.','Thanks!']]},
+'INC-1011':{o:[['Is it only F:, and only on your PC?','Only F:, and only on my PC.'],['Map it yourself with the server path',"I don't know the path...",X('Gave a workaround without finding the cause.')],['Looking at your PC now.','Thanks.']]},
+'INC-1012':{o:[['Is the link light on? What does the network icon say?','Light is on. It says Unidentified network.'],['Use your phone hotspot','That is not allowed for work data...',X('Suggested bypassing the company network.')],['On it. I will check the network side.','Thanks.']]}});
+MAILS.push(
+{at:34,id:'INC-1008',f:'lena.b@corp.example',s:'Leaver: John T.',b:'John T. in Sales leaves today. Please close his access and forward his mail to his manager, peter.k.',a:[['Reply: I will close his access today','Reply sent.'],['Reply: I will delete his account and mailbox now','Reply sent.',X('Proposed deleting data before handover.')]]},
+{at:46,id:'INC-1010',f:'maria.l@corp.example',s:'Finance shared mailbox',b:'Please give me access to the finance shared mailbox. I need it for an audit.',a:[['Reply: I will check with the mailbox owner first','Reply sent.'],['Reply: Done, no checks needed','Reply sent.',X('Promised shared-data access without owner approval.')]]});
+function m3(){return '<table><tr><th>User</th><th>License</th><th>MFA</th><th>Sign-in</th><th>Actions</th></tr>'+Object.keys(U).map(s=>{const u=U[s];return `<tr><td>${s}</td><td>${u.lic||'<span class="lk">none</span>'}</td><td>${u.mfa?'Registered':'None'}</td><td>${u.blk?'Blocked':'Allowed'}</td><td><button class="sm" onclick="doit('Set-M365License ${s}')">Assign E3</button><button class="sm" onclick="doit('Set-M365License ${s} -Remove')">Remove</button><button class="sm" onclick="doit('Reset-MFA ${s}')">Reset MFA</button></td></tr>`}).join('')+'</table>'}
+const CS={},HS={},ML=[];
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const bub=l=>l.map(([w,x])=>`<div class="bub ${w=='me'?'me':''}">${esc(x)}</div>`).join('');
+function fx(f,id){if(!f)return;if(f[0]=='v')V[f[1]]=1;else vio(f[1],id)}
+function note(n,m){say('['+hm(now)+'] '+m,'y');if(actTab!=n)nb[n]++}
+function arrive(){
+ TK.forEach(t=>{if(t.at<=now&&!t.sn){t.sn=1;say('['+hm(now)+'] New ticket '+t.id+': '+t.t+' (via '+t.ch+')','y');
+  if(t.ch=='call'){CS[t.id]={i:0,log:[],ans:0};note(3,'Incoming call: '+t.f)}
+  if(t.ch=='chat'){HS[t.id]={log:[['u',t.m]],used:{}};note(4,'New chat: '+t.f)}}});
+ if(now>=BOSS.at&&!HS.BOSS){HS.BOSS={log:[['u',BOSS.m]],used:{}};note(4,'Chat from your manager')}
+ MAILS.forEach(m=>{if(m.at<=now&&!m.sn){m.sn=1;ML.push(m);note(5,'New email: '+m.s)}})}
+function ans(id){CS[id].ans=1;CS[id].log.push(['u',CALL[id][0].x]);draw()}
+function cs(id,j){const s=CS[id],o=CALL[id][s.i].o[j];s.log.push(['me',o[0]],['u',o[1]]);fx(o[2],id);s.i++;if(s.i<CALL[id].length)s.log.push(['u',CALL[id][s.i].x]);draw()}
+function hc(id,j){const s=HS[id],o=(id=='BOSS'?BOSS:CHAT[id]).o[j];s.used[j]=1;s.log.push(['me',o[0]],['u',o[1]]);fx(o[2],id=='BOSS'?undefined:id);draw()}
+function ma(k,j){const m=ML[k],o=m.a[j];m.res=o[1];fx(o[2],m.id=='PH'?undefined:m.id);draw()}
+function pz(){paused=!paused;pzb.textContent=paused?'Resume':'Pause'}
+function rp(){
+ [3,4,5].forEach(n=>{document.getElementById('t'+n).innerHTML=['Phone','Chat','Email'][n-3]+(nb[n]&&actTab!=n?`<span class="dot">${nb[n]}</span>`:'')});
+ const none='<p style="color:var(--mu)">Nothing yet.</p>';
+ p3.innerHTML=Object.keys(CS).map(id=>{const s=CS[id],t=TK.find(x=>x.id==id),N=CALL[id];
+  let h=`<div class="em"><b>Call: ${t.f}</b> `;
+  if(!s.ans)h+=`<button class="sm" onclick="ans('${id}')">Answer</button>`;
+  else{h+=bub(s.log);h+=s.i<N.length?'<div class="rp">'+N[s.i].o.map((o,j)=>`<button onclick="cs('${id}',${j})">${esc(o[0])}</button>`).join('')+'</div>':'<div style="color:var(--mu)">Call ended.</div>'}
+  return h+'</div>'}).join('')||none;
+ p4.innerHTML=Object.keys(HS).map(id=>{const s=HS[id],o=(id=='BOSS'?BOSS:CHAT[id]).o;
+  return `<div class="em"><b>Chat: ${id=='BOSS'?'Manager':TK.find(x=>x.id==id).f}</b>`+bub(s.log)+'<div class="rp">'+o.map((q,j)=>s.used[j]?'':`<button onclick="hc('${id}',${j})">${esc(q[0])}</button>`).join('')+'</div></div>'}).join('')||none;
+ p5.innerHTML=ML.map((m,k)=>`<div class="em"><b>${esc(m.s)}</b><br><small>From: ${esc(m.f)} · ${hm(m.at)}</small><p>${esc(m.b)}</p>`+(m.res?`<div class="fb" style="color:var(--mu)">${esc(m.res)}</div>`:'<div class="rp">'+m.a.map((o,j)=>`<button onclick="ma(${k},${j})">${esc(o[0])}</button>`).join('')+'</div>')+'</div>').join('')||none;p6.innerHTML=m3()}
+/* ===== UI ===== */
+function tab(n){actTab=n;if(n>2)nb[n]=0;for(let i=1;i<=6;i++){document.getElementById('p'+i).hidden=i!=n;document.getElementById('t'+i).className='tab'+(i==n?' on':'')}if(n==1)cmd.focus();rp()}
+function draw(){
+ let tot=0,dn=0;
+ inbox.innerHTML=TK.map((t,i)=>{const d=D[t.id]!=null;if(d){tot+=D[t.id];dn++}if(t.at>now)return'';
+  return `<button class="tk ${i==cur?'on':''}" onclick="cur=${i};draw()"><span class="b ${d?'d':''}">${d?D[t.id]+'/'+MAX:'open'}</span><b>${t.id}</b><small>${t.t}</small></button>`}).join('');
+ stat.textContent='Closed '+dn+'/'+TK.length+' · Score '+tot+'/'+dn*MAX;
+ const t=TK[cur];
+ tkt.innerHTML=`<div style="color:var(--mu);font-size:13px">${t.id} · ${t.f} · via ${t.ch} · SLA due <span class="${now>t.at+t.sla&&D[t.id]==null?'lk':''}">${hm(t.at+t.sla)}</span></div><h2>${t.t}</h2><div class="msg">${t.m}</div><button class="sm" onclick="hint()">Hint (-1 point)</button> <span id="hn" style="color:var(--mu)"></span>`;
+ const dd=document.getElementById('p2');
+ dd.innerHTML='<table><tr><th>User</th><th>Dept</th><th>OU</th><th>Status</th><th>Actions</th></tr>'+Object.keys(U).map(s=>{const u=U[s];
+  return `<tr><td>${s}</td><td>${u.d}</td><td>${u.ou}</td><td>${u.en?'Enabled':'Disabled'}${u.lock?' <span class="lk">· Locked</span>':''}</td><td><button class="sm" onclick="doit('Unlock-ADAccount ${s}')">Unlock</button><button class="sm" onclick="doit('Set-ADAccountPassword ${s} -Reset')">Reset pw</button><button class="sm" onclick="doit('Set-ADUser ${s} -ChangePasswordAtLogon $true')">Force change</button><button class="sm" onclick="doit('verify ${s}')">Verify caller</button></td></tr>`}).join('')+'</table>';rp();clk.textContent=hm(now);pgdraw();
+}
+function doit(c){tab(1);run(c)}
+function hint(){const t=TK[cur];HN[t.id]=(HN[t.id]||0)+1;say('HINT: '+t.h,'y');tab(1)}
+cmd.addEventListener('keydown',e=>{
+ if(e.key=='Enter'){run(cmd.value);cmd.value=''}
+ else if(e.key=='ArrowUp'&&hi>0){cmd.value=hist[--hi]}
+ else if(e.key=='ArrowDown'){cmd.value=hi<hist.length-1?hist[++hi]:'';hi=Math.min(hi+1,hist.length)}});
+say('JayTech IT. Your shift starts at 08:00. Tickets arrive by phone, chat and email. Answer them in the Phone/Chat/Email tabs, fix things here or in Directory, then Close with notes. Type help for commands.','y');
+/* ===== company pages ===== */
+const $=i=>document.getElementById(i);
+let NAME='Analyst',LATE=0;
+const PG=['home','desk','console','kb','staff','assets','report'];
+const PR={'INC-1001':'Low','INC-1002':'Medium','INC-1003':'Medium','INC-1004':'Low','INC-1005':'Medium','INC-1006':'Critical','INC-1007':'Medium','INC-1008':'Medium','INC-1009':'High','INC-1010':'Low','INC-1011':'Low','INC-1012':'Medium'};
+const KB=[
+['Priorities and SLAs','Critical: security incident or outage. High: many users blocked. Medium: one user blocked. Low: routine request. Each ticket shows its SLA due time; closing late costs points.'],
+['Identity verification','Always verify the caller before changing credentials or MFA: security questions or a callback to the number on file. Never reset on a request you cannot verify.'],
+['Password reset','After verification set a temporary password and require change at next logon. Never email or text passwords in plain text. Never use shared default passwords.'],
+['Account lockouts','Find the lockout source first (Get-LockoutSource). Usual causes: phones, mapped drives, saved credentials. Unlocking without removing the source only delays the next lockout.'],
+['Printer problems','Check scope: one user or many? For a stuck queue on one PC, restart the Print Spooler and clear the queue. Escalate if the printer itself shows errors.'],
+['Slow computer','Check disk space, startup apps and updates before suggesting hardware. Under about 10% free disk causes real slowdowns: clear temp files first.'],
+['Microsoft 365 licensing','Users need a license for a mailbox, Teams and Office apps. New users have none until you assign one. Remove the license when an employee leaves.'],
+['MFA changes','Lost or new phone: verify the caller, then reset the MFA registration so the user can enrol again. Never disable MFA as a workaround.'],
+['Onboarding checklist','Confirm the request is approved. Create the account in the right department with least-privilege groups only. Assign a license. Temporary password with forced change. Never copy an admin account.'],
+['Offboarding checklist','Disable the account, revoke sessions, remove the license, move to the Disabled Users OU, forward mail to the manager if asked. Do not delete data until HR confirms retention.'],
+['Shared mailbox access','Needs the mailbox owner approval before access is granted. Record the approval on the ticket.'],
+['Group Policy','Drive maps and settings come from GPOs linked to OUs. If a PC has not applied policy for days, run gpupdate and confirm it is on the network.'],
+['DHCP and no network','A 169.254.x.x address means the PC got no DHCP lease. Check the scope for free addresses and stale leases, clear stale leases, then renew.'],
+['Phishing response','Clicked link plus typed credentials is an incident: verify, reset the password, revoke sessions, escalate to security. Report every phishing email.'],
+['Ticket notes','Good resolution notes say what the issue was, what you did, and how you confirmed the fix.']];
+const EXTRA=[['lena.b','Lena B.','HR'],['','Tom Becker','Sales (starts Monday, no account yet)']];
+function go(p){PG.forEach(x=>$('pg-'+x).hidden=x!=p);document.querySelectorAll('#topnav button').forEach(b=>b.className='tab'+(b.dataset.p==p?' on':''));
+ if(p=='kb')kb();if(p=='staff')stf();if(p=='console'){draw();cmd.focus()}pgdraw()}
+function signin(){NAME=$('nm').value.trim()||'Analyst';try{localStorage.setItem('salname',NAME)}catch(e){}$('login').hidden=true;paused=false;$('pzb').textContent='Pause';go('home')}
+try{$('nm').value=localStorage.getItem('salname')||''}catch(e){}
+function kb(){const q=($('kq').value||'').toLowerCase();$('kl').innerHTML=KB.filter(a=>(a[0]+a[1]).toLowerCase().includes(q)).map(a=>`<div class="box" style="padding:12px 16px;margin:8px 0"><b>${a[0]}</b><p style="margin:4px 0 0;color:var(--mu)">${a[1]}</p></div>`).join('')||'<p>No articles.</p>'}
+function stf(){const q=($('sq').value||'').toLowerCase();
+ const rows=Object.keys(U).map(s=>[s,U[s].n,U[s].d,U[s].ou]).concat(EXTRA.filter(e=>e[1]!='Tom Becker'||!U['tom.b']).map(e=>[e[0],e[1],e[2],'-']));
+ $('st').innerHTML='<table><tr><th>Name</th><th>Username</th><th>Department</th><th>OU</th><th>Email</th><th>Ext.</th></tr>'+rows.map((r,i)=>[r,2100+i]).filter(([r])=>r.join(' ').toLowerCase().includes(q)).map(([r,e])=>`<tr><td>${r[1]}</td><td>${r[0]||'-'}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[0]?r[0]+'@jaytech.example':'-'}</td><td>${e}</td></tr>`).join('')+'</table>'}
+function pgdraw(){
+ const p=PG.find(x=>!$('pg-'+x).hidden);let tot=0,dn=0;
+ TK.forEach(t=>{if(D[t.id]!=null){tot+=D[t.id];dn++}});
+ const arr=TK.filter(t=>t.at<=now),op=arr.filter(t=>D[t.id]==null),br=op.filter(t=>now>t.at+t.sla);
+ if(p=='home'){$('hg').textContent=(now<240?'Good morning, ':'Good afternoon, ')+NAME+' · '+hm(now);
+  $('kp').innerHTML=[['Open tickets',op.length],['SLA breached',br.length],['Closed',dn+'/'+TK.length],['Average score',dn?(tot/dn).toFixed(1)+'/'+MAX:'-']].map(([a,b])=>`<div class="box kpi"><small>${a}</small><b>${b}</b></div>`).join('')}
+ if(p=='desk')$('dk').innerHTML='<table><tr><th>Ticket</th><th>Summary</th><th>Requester</th><th>Via</th><th>Priority</th><th>Due</th><th>Status</th></tr>'+arr.map(t=>{const i=TK.indexOf(t),d=D[t.id]!=null,b=!d&&now>t.at+t.sla;return `<tr style="cursor:pointer" onclick="cur=${i};go('console')"><td>${t.id}</td><td>${t.t}</td><td>${t.f}</td><td>${t.ch}</td><td>${PR[t.id]}</td><td>${hm(t.at+t.sla)}</td><td class="${b?'lk':''}">${d?'Closed ('+D[t.id]+'/'+MAX+')':b?'SLA breached':'Open'}</td></tr>`}).join('')+'</table>';
+ if(p=='assets')$('as').innerHTML='<table><tr><th>Asset</th><th>User</th><th>Status</th><th>Free disk</th><th>IP</th><th>Spooler</th><th>Queue</th><th>GPO</th></tr>'+Object.keys(C).map(n=>{const x=C[n];return `<tr><td>${n}</td><td>${x.u}</td><td>${x.on?'Online':'Offline'}</td><td class="${x.free<10?'lk':''}">${x.free}%</td><td class="${(x.ip||'').startsWith('169')?'lk':''}">${x.ip||'10.0.1.20'}</td><td class="${x.sp!='Running'?'lk':''}">${x.sp}</td><td>${x.q}</td><td class="${x.gpo?'lk':''}">${x.gpo?x.gpo+' days ago':'current'}</td></tr>`}).join('')+'</table>';
+ if(p=='report'){let vi=0,hn=0;Object.values(VIO).forEach(v=>vi+=v);Object.values(HN).forEach(v=>hn+=v);
+  const pc=dn?tot/(dn*MAX):0,rt=!dn?'No tickets closed yet':pc>=.9?'Exceeds expectations':pc>=.7?'Meets expectations':'Needs improvement';
+  $('rpt').innerHTML='<div class="kpis">'+[['Total score',tot+'/'+dn*MAX],['Rating',rt],['Policy violations',vi],['Hints used',hn],['SLAs missed',LATE]].map(([a,b])=>`<div class="box kpi"><small>${a}</small><b style="font-size:${String(b).length>8?'16':'24'}px">${b}</b></div>`).join('')+'</div><div class="box" style="overflow:auto;padding:8px;margin-top:14px"><table><tr><th>Ticket</th><th>Summary</th><th>Score</th></tr>'+TK.map(t=>`<tr><td>${t.id}</td><td>${t.t}</td><td>${D[t.id]!=null?D[t.id]+'/'+MAX:'-'}</td></tr>`).join('')+'</table></div>'}
+}
+arrive();draw();go('home');setInterval(()=>{if(!paused){now++;arrive();draw()}},3000);
+</script>
+</body>
+</html>
